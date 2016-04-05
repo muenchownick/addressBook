@@ -19,6 +19,15 @@ Address.prototype.fullAddress = function() {
 Contact.prototype.fullName = function() {
   return this.firstName + " " + this.lastName;
 };
+
+function resetFields() {
+    $("input#new-first-name").val("");
+    $("input#new-last-name").val("");
+    $("input#new-email").val("");
+    $("input.new-street").val("");
+    $("input.new-city").val("");
+    $("input.new-state").val("");
+};
 // user interface logic
 $(document).ready(function(){
   $("#add-address").click(function(){
@@ -38,8 +47,6 @@ $(document).ready(function(){
                                '</div>');
   });
 
-
-
   $("form#new-contact").submit(function(event){
     event.preventDefault();
 
@@ -49,16 +56,14 @@ $(document).ready(function(){
     var newContact = new Contact(fName, lName, eMail);
 
     $(".new-address").each(function() {
-  var inputtedStreet = $(this).find("input.new-street").val();
-  var inputtedCity = $(this).find("input.new-city").val();
-  var inputtedState = $(this).find("input.new-state").val();
-  var newAddress = new Address(inputtedStreet, inputtedCity, inputtedState);
-  newContact.addresses.push(newAddress);
-  console.log(newAddress);
+      var inputtedStreet = $(this).find("input.new-street").val();
+      var inputtedCity = $(this).find("input.new-city").val();
+      var inputtedState = $(this).find("input.new-state").val();
+      var newAddress = new Address(inputtedStreet, inputtedCity, inputtedState);
+      newContact.addresses.push(newAddress);
+      console.log(newAddress);
 
 });
-
-
     $("#contacts").append("<li><span class='contact'>" + newContact.fullName() + "</span></li>");
 
     $(".contact").last().click(function(){
@@ -67,19 +72,12 @@ $(document).ready(function(){
       $(".first-name").text(newContact.firstName);
       $(".last-name").text(newContact.lastName);
       $(".email").text(newContact.eMail);
+
       $("ul#addresses").text("");
       newContact.addresses.forEach(function(address) {
         $("ul#addresses").append("<li>" + address.fullAddress() + "</li>");
-      });
-// address.fullAddress = is a prototype (made in business logic)
-    });
-
-    $("#new-first-name").val("");
-    $("#new-last-name").val("");
-    $("#new-email").val("");
-    $("input.new-street").val("");
-    $("input.new-city").val("");
-    $("input.new-state").val("");
-
-  });
+     });
+   });
+resetFields();
+ });
 });
